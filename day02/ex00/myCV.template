@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>CV {firstname}</title>
+
+    <style>
+        :root {
+            --porcelain: #F1F7ED;
+            --cinnabar: #243E36;
+        }
+        * {
+            margin: 0;
+        }
+
+        body {
+            height: 100vh;
+            width: 100vw;
+            max-width: 700px;
+            margin-inline: auto;
+            max-height: 100%;
+            background-color: var(--porcelain);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        
+            overflow: hidden;
+        }
+
+        #content {
+            width: 90%;
+            height: 90%;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+            color: var(--cinnabar);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 2em;
+        }
+
+        h1 {
+            font-weight: bold;
+            font-size: 3em;
+        }
+
+        hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid var(--cinnabar);
+            margin-bottom: 1em;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid var(--cinnabar);
+        }
+        th {
+            background-color: var(--cinnabar);
+            color: var(--porcelain);
+        }
+        th, td {
+            padding-inline: 8px;
+            padding-block: 4 px;
+        }
+
+        /* table tr:last-child td:last-child {
+            border: 1px solid #424242;
+        } */
+
+        .checked {
+            color: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <div>
+            <h1>{firstname} {lastname}</h1>
+            <p style="margin-top: -.8em;">{profession} • {age} ans • {city}</p>
+        </div>
+
+        <div style="flex: 1;">
+            <div>
+                <h2>Mon parcours</h2>
+                <hr>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce laoreet nibh quis arcu gravida condimentum. Phasellus <strong>convallis</strong> neque non sem commodo, id semper justo lacinia. Sed rutrum faucibus risus in accumsan. Aliquam erat volutpat. Morbi congue tortor nec tellus fringilla, et sagittis lacus sagittis. Maecenas feugiat a sapien ut porttitor.</p>
+                <p>Curabitur finibus turpis quis mauris blandit, in gravida augue bibendum. Vivamus fermentum, erat non consequat malesuada, tortor libero ultricies tellus, nec aliquet diam velit et velit. Maecenas <strong>congue blandit</strong> lacus sit amet tincidunt. Vestibulum in enim nulla. Phasellus non leo sit amet dolor aliquam tempor at vel tellus. Aenean a justo elit. Aliquam placerat, felis a sagittis luctus, urna enim rhoncus elit, eget pellentesque est augue a mauris. Maecenas porta ipsum felis, et bibendum dolor finibus a. Integer id commodo nisi.</p>
+            </div>
+            <div style="margin-top: 1.5em;">
+                <h2>Mes experiences professionnelles</h2>
+                <hr>
+                <ul>
+                    <li><strong>Nulla aliquam</strong> dui quis pulvinar molestie. Etiam consequat dui vel fermentum sollicitudin. </li>
+                    <li><strong>Aliquam erat</strong> volutpat. Vestibulum neque ipsum, rhoncus sed nisi ut, bibendum facilisis velit. Aenean non leo molestie, dignissim metus ut, tempus dolor.</li>
+                    <li><strong>Sed semper</strong> turpis nec augue ultrices, eu porta nisi pharetra.</li>
+                    <li><strong>Proin lorem velit</strong>, maximus quis sem id, fringilla viverra dui. Duis quam est, vestibulum volutpat lectus in, iaculis vestibulum felis. Curabitur tempor nisl id tortor venenatis, interdum sollicitudin metus commodo. Nullam in metus ut libero bibendum semper. Etiam dui lectus, pellentesque id lectus nec, bibendum pulvinar dolor. Ut dapibus efficitur fringilla. Donec vestibulum pellentesque nisi, nec lacinia lacus congue pellentesque. Sed metus urna, commodo sed velit a, viverra pellentesque ligula.</li>
+
+                </ul>
+            </div>
+        </div>
+
+        <table>
+            <tr><th>Competence</th><th>Descriptif</th><th>Niveau</th></tr>
+            <tr><td>React JS</td><td>Framework devellopement web</td><td>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+            </td></tr>
+            <tr><td>Python</td><td>Language interprété, POO</td><td>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </td></tr>
+            <tr><td>Java</td><td>Language oriente objet, POO</td><td>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </td></tr>
+            <tr><td>C</td><td>Language bas niveau</td><td style="border: 1px solid #424242;">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+            </td></tr>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# name = "duoquadragintian"
+firstname = "Quentin"
+lastname = "Terisse"
+age = "22"
+city = "Lyon"
+profession = "Dev fullstack"
