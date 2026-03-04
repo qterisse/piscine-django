@@ -32,12 +32,10 @@ class Page:
             return False
 
         # Body et Div ne doivent contenir que des éléments des types suivant : H1, H2, Div, Table, Ul, Ol, Span, ou Text.
-        if (etag in ["body", "div"] and econtent and not (type(econtent) in self.ALLOWED_TYPES_IN_DIV
-            or (type(econtent == list and all([type(subelem) in self.ALLOWED_TYPES_IN_DIV for subelem in econtent]))))):
+        if (etag in ["body", "div"] and econtent and not (all([type(subelem) in self.ALLOWED_TYPES_IN_DIV for subelem in econtent]))):
             self.error_message = "<" + etag + "> tag can only contain these tag types: H1, H2, Div, Table, Ul, Ol, Span, or Text"
             return False
 
-        print(econtent)
         # Title, H1, H2, Li, Th, Td ne doivent contenir qu’un unique Text et uniquement ce Text.
         if (etag in ["title", "h1", "h2", "li", "th", "td"] and econtent and not (len(econtent) == 1 and type(econtent[0]) == Text)):
             self.error_message = "<" + etag + "> tag can only contain one Text element and nothing else"
@@ -45,8 +43,7 @@ class Page:
         
         # P ne doit contenir que des Text.
         # (should be the other way around -> P should be able to contain text or spans, while span can only contain Text)
-        if (etag == "p" and econtent and not ((type(econtent) == list 
-            and all([type(subelem) == Text for subelem in econtent])) or (type(econtent) == Text))):
+        if (etag == "p" and econtent and not (type(econtent) == list and all([type(subelem) == Text for subelem in econtent]))):
             self.error_message = "<p> tag can only contain one or multiple Text element and nothing else"
             return False
         
@@ -57,15 +54,13 @@ class Page:
             return False
 
         # Ul et Ol doivent contenir au moins un Li et uniquement des Li.
-        if (etag in ["ul", "ol"] and not (econtent and ((type(econtent) == list 
-            and all([type(subelem) == Li for subelem in econtent])) or type(econtent == Li)))):
+        if (etag in ["ul", "ol"] and not (len(econtent) >= 1 and all([type(subelem) == Li for subelem in econtent]))):
             self.error_message = "<" + etag + "> tag must contain one or multiple <li> tags and nothing else"
             return False
         
         # Tr doit contenir au moins un Th ou Td et uniquement des Th ou des Td. Les Th et les Td doivent être mutuellement exclusifs.
-        if (etag == "tr" and not (econtent and (type(econtent) == Th or (type(econtent) == list 
-            and all([type(subelem) == Th for subelem in econtent]))) or (type(econtent) == Td or (type(econtent) == list 
-            and all([type(subelem) == Td for subelem in econtent]))))):
+        if (etag == "tr" and not (len(econtent) >= 1 and 
+            (all([type(subelem) == Th for subelem in econtent]) or all([type(subelem) == Td for subelem in econtent])))):
             self.error_message = "<tr> tag must contain one or multiple <th> OR <td> tags and nothing else"
             return False
         
@@ -136,7 +131,41 @@ if __name__ == "__main__":
     should_be_valid(Html([Head(Title(Text("a"))), Body([H1(Text("a")), H2(Text("a")), Table([Tr(Th(Text("a"))), Tr(Td(Text("a")))]), Ul(Li(Text("a")))])]))
 
     should_be_unvalid(Html([Head([Title([Text("a"), Text("a")])]), Body([])]))
+    should_be_unvalid(Html([Head([Title(H1())]), Body([])]))
 
+    # P ne doit contenir que des Text.
+    should_be_valid(Html([Head(Title()), Body(Div(Span(P([Text("Hello"), Text("World")]))))]))
 
+    should_be_unvalid(Html([Head(Title()), Body(Div(Span(P(Div()))))]))
+    should_be_unvalid(Html([Head(Title()), Body(Div(Span(P([P(), H1()]))))]))
+
+    # Span ne doit contenir que des Text ou des P.
+    should_be_valid(Html([Head(Title()), Body(Div(Span([P(Text("Hello")), Text("World")])))]))
+
+    should_be_unvalid(Html([Head(Title()), Body(Div(Span(Div())))]))
+    should_be_unvalid(Html([Head(Title()), Body(Div(Span([Text("Hello world"), Th()])))]))
+
+    # Ul et Ol doivent contenir au moins un Li et uniquement des Li.
+    should_be_valid(Html([Head(Title()), Body(Div(Ul([Li(), Li(), Li()])))]))
+    should_be_valid(Html([Head(Title()), Body(Div(Ul(Li())))]))
+    should_be_valid(Html([Head(Title()), Body(Div(Ol(Li())))]))
+
+    should_be_unvalid(Html([Head(), Body(Ul(P()))]))
+    should_be_unvalid(Html([Head(), Body(Ul([Li(), P()]))]))
+    should_be_unvalid(Html([Head(), Body(Ul())]))
+    should_be_unvalid(Html([Head(), Body(Ol([Li(), P()]))]))
+
+    # Tr doit contenir au moins un Th ou Td et uniquement des Th ou des Td. Les Th et les Td doivent être mutuellement exclusifs.
+    should_be_valid(Html([Head(Title()), Body(Table([Tr([Th(), Th()]), Tr([Td(), Td()])]))]))
+    should_be_valid(Html([Head(Title()), Body(Table([Tr(Th()), Tr([Td(), Td()])]))]))
+
+    should_be_unvalid(Html([Head(Title()), Body(Table([Tr([Th(), Td()]), Tr([Td(), Td()])]))]))
+    should_be_unvalid(Html([Head(Title()), Body(Table([Tr(), Tr([Td(), Td()])]))]))
+
+    # Table : ne doit contenir que des Tr et uniquement des Tr.
+    should_be_valid(Html([Head(Title()), Body(Table(Tr([Th(), Th()])))]))
+    
+    should_be_unvalid(Html([Head(Title()), Body(Table(Td()))]))
+    should_be_unvalid(Html([Head(Title()), Body(Table([Tr(Th()), P(Text("Hello world"))]))]))
 
     print("Everything's good :)")
